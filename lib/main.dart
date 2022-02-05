@@ -1,4 +1,4 @@
-import 'package:client/mainscreen/main_screen.dart';
+import 'package:client/mainscreen/main_screen_user.dart';
 import 'package:client/register_screen/register_screen.dart';
 import 'package:client/users/user_object.dart';
 import 'package:flutter/material.dart';
