@@ -1,7 +1,9 @@
+
+import 'package:client/register_screen/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatelessWidget{
+class LoginScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -16,23 +18,29 @@ class MainScreen extends StatelessWidget{
                 children: <Widget>[
                   Image.asset(
                     'assets/images/logo.png',
-                    fit: BoxFit.contain,
+                    width: width,
+                    height: height*0.4,
+                    //fit: BoxFit.contain,
                   ),
                   Card(
                       child:  Column(
-                          children: const <Widget>[
-                            TextField(
-                                decoration: InputDecoration(
+                          children:  <Widget>[
+                            TextFormField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
                                   prefixIcon: Icon(Icons.person),
                                   labelText: "Телефон или Email",
                                 )
                             ),
-                            TextField(
-                                decoration: InputDecoration(
+                            SizedBox(height: 10),
+                            TextFormField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
                                   prefixIcon: Icon(Icons.lock),
                                   labelText: "Пароль",
                                 )
                             ),
+
                           ]
                       )),
                   TextButton(
@@ -42,6 +50,7 @@ class MainScreen extends StatelessWidget{
                   TextButton(
                     child: const Text("Зарегестрироваться"),
                     onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
                     },)
                   ,]
             )

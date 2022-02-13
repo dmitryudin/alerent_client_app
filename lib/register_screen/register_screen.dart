@@ -1,9 +1,10 @@
 import 'dart:io';
-
+import 'package:client/mainscreen/main_screen_owner.dart';
+import 'package:client/register_screen/register_as_realtor.dart';
+import 'package:client/register_screen/register_as_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../users/user_object.dart';
 
 class RegisterScreen extends StatefulWidget{
@@ -34,102 +35,64 @@ class MyScreen extends State<RegisterScreen>{
     double height = MediaQuery.of(context).size.height;
 
     return (Scaffold(
-      appBar: AppBar(
-        title: const Text('Регистрация'),
-      ),
-      body: ListView(
-          padding: EdgeInsets.symmetric(vertical: height*0.01, horizontal: width*0.07),
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-              child: TextFormField(
-                onChanged:(String value)=> _user.first_name=value,
-                decoration: InputDecoration(
-                  labelText:'Введите имя',
-                ),
-              )
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: TextFormField(
-                onChanged:(String value)=> _user.last_name=value,
-                  decoration: InputDecoration(
-                    labelText:'Введите фамилию',
-
+        appBar: AppBar(
+          title: const Text('Зарегестрироватья как...'),
+        ),
+        body: ListView(
+            padding: EdgeInsets.symmetric(vertical: height*0.1, horizontal: width*0.07),
+            children: <Widget>[
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent),
+                      color: Colors.deepOrange[200],
                   ),
-                )
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                ),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                  child: TextButton(
+
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    child:const Text("Наниматель"),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreenAsUser()));
+                    },)
               ),
-              child: GestureDetector(
-                  onTap: ()  async {
-                    image = await _picker.pickImage(source: ImageSource.gallery);
-                    _user.imageBytes = File(image!.path).readAsBytesSync();
-                    avatar='Аватар';
-
-                      setState(() {
-                    });
-                  },
-                child: Column(
-                  children: <Widget> [
-                    Text(avatar),
-                   image == null
-                        ? Image.asset('assets/images/photo.png')
-                        : Image.file(File(image!.path)),
-
-                                    ],
-              )
-            )),
-
-
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: TextFormField(
-                  onChanged:(String value)=> _user.phone=value,
-                  decoration: InputDecoration(
-                    labelText:'Введите телефон',
+              Container(
+                  margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+                  decoration: BoxDecoration(
+                      color: Colors.lightGreenAccent[100],
+                      border: Border.all(color: Colors.blueAccent)
                   ),
-                )
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: TextFormField(
-                  onChanged:(String value)=> _user.email=value,
-                  decoration: InputDecoration(
-                    labelText:'Введите E-mail',
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                  child: TextButton(
+
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    child:const Text("Собственник"),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreenAsOwner()));
+                    },)
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent),
+                      color: Colors.teal[100],
                   ),
-                )
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: TextFormField(
-                  onChanged:(String value)=> _user.dateOfBurn=value,
-                  decoration: InputDecoration(
-                    labelText:'Введите дату рождения',
-                  ),
-                )
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: TextFormField(
-                  controller: TextEditingController()..text = _user.passport,
-                  onChanged:(String value)=> _user.passport=value,
-                  decoration: InputDecoration(
-                    labelText:'Введите серию паспорта',
-                  ),
-                )
-            ),
-            TextButton(
-              child:const Text("Сохранить"),
-              onPressed: () {
-                _user.registration();
-              },)
-          ]
-      )
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                  child: TextButton(
+
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    child:const Text("Риелтор"),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreenAsRealtor()));
+                    },)
+              ),
+
+            ]
+        )
     )
 
 

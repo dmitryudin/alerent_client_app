@@ -3,6 +3,8 @@ import 'package:client/register_screen/register_screen.dart';
 import 'package:client/users/user_object.dart';
 import 'package:flutter/material.dart';
 
+import 'loginscreen/login_screen.dart';
+
 void main() {
   runApp(MyApp()); // Функция в качестве аргумента принимает
                     // экземпляр класса MyApp (корневой виджет)
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget { //наследование от StatelessW
       theme: ThemeData(
           primarySwatch: Colors.blue,
       ),
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }
