@@ -1,9 +1,6 @@
-import 'dart:io';
-
+import 'package:client/my_widgets/gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
 import '../users/user_object.dart';
 
 class RegisterScreenAsUser extends StatefulWidget {
@@ -16,9 +13,7 @@ class RegisterScreenAsUser extends StatefulWidget {
 }
 
 class MyScreen extends State<RegisterScreenAsUser> {
-  final ImagePicker _picker = ImagePicker();
-  XFile? image;
-  static String avatar = 'Загрузите аватарку';
+
   User _user = User();
 
   @override
@@ -36,6 +31,8 @@ class MyScreen extends State<RegisterScreenAsUser> {
           title: const Text('Регистрация Нанимателя'),
         ),
         body: ListView(
+            scrollDirection: Axis.vertical, //Направление прокрутки
+            shrinkWrap: true, //Чтобы масштабировался скролл при изменении элементов
             padding: EdgeInsets.symmetric(
                 vertical: height * 0.01, horizontal: width * 0.02),
             children: <Widget>[
@@ -74,32 +71,7 @@ class MyScreen extends State<RegisterScreenAsUser> {
                         labelText: 'Отчество',
                       ),
                     )),
-                Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                      ),
-                    ),
-                    child: GestureDetector(
-                        onTap: () async {
-                          image = await _picker.pickImage(
-                              source: ImageSource.gallery);
-                          _user.imageBytes =
-                              File(image!.path).readAsBytesSync();
-                          avatar = 'Аватар';
-
-                          setState(() {});
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            Text(avatar),
-                            image == null
-                                ? Image.asset('assets/images/photo.png')
-                                : Image.file(File(image!.path)),
-                          ],
-                        ))),
+               GalleryWidget(_user),
                 Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 10),

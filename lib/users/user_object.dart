@@ -1,19 +1,20 @@
 import 'dart:convert';
-
+import 'dart:io' as dio;
 import 'package:http/http.dart' as http;
+
 
 class User {
 
   Future<User> registration() async {
-    photo = base64Encode(imageBytes!);
+
+    User _user = User();
+
     final response = await http.post(
-      Uri.parse('http://192.168.0.105:50/client/registration'),
+      Uri.parse('http://192.168.43.246:5050/client/registration'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'title': photo,
-      }),
+      body: jsonEncode(toJson())
     );
 
     if (response.statusCode == 201) {
@@ -29,7 +30,7 @@ class User {
 
   Future<User> get_data(String title) async {
     final response = await http.post(
-      Uri.parse('http://192.168.0.105:50/client/get_profile'),
+      Uri.parse('http://192.168.43.246:5050/client/get_profile'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -51,6 +52,7 @@ class User {
 
   static final User _user = User._internal();
   int id=0;
+  List<String> photo_str = [];
   String first_name='';
   String last_name='';
   String phone='';
@@ -58,7 +60,7 @@ class User {
   String dateOfBurn='';
   String passport='';
   double rating=0.0;
-  String photo='';
+  List<dio.File> photo=[];
   String qr='';
   String token='';
   String date_of_registration='';
@@ -71,11 +73,16 @@ class User {
         rating=json['rating'], photo=json['photo'], qr=json['qr'], token=json['token'],
         date_of_registration=json['date_of_registration'], is_verified=json['is_verified'];
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() {
+    photo_str = [];
+    for (var el in photo){
+      photo_str.add(base64Encode(el.readAsBytesSync()));
+    }
+    return {
     'first_name': first_name, 'last_name':last_name, 'phone':phone, 'email':email,
-    'dateOfBurn':dateOfBurn, 'passport':passport, 'rating':rating, 'photo':photo,
+    'dateOfBurn':dateOfBurn, 'passport':passport, 'rating':rating, 'photo':photo_str,
     'qr':qr, 'token':token, 'date_of_registration':date_of_registration, 'is_verified':is_verified
-  };
+  };}
 
   factory User() {
     return _user;

@@ -68,10 +68,12 @@ class MyScreen extends State<RegisterScreenAsRealtor>{
                   child: GestureDetector(
                       onTap: ()  async {
                         image = await _picker.pickImage(source: ImageSource.gallery);
-                        _user.imageBytes = File(image!.path).readAsBytesSync();
+
+
                         avatar='Аватар';
 
                         setState(() {
+                          _user.photo.add(File(image!.path));
                         });
                       },
                       child: Column(
