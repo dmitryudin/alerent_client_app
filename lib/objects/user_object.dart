@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io' as dio;
+import 'package:client/users/passport_object.dart';
+import 'package:client/utils/Fields.dart';
+import 'package:client/utils/photo_class.dart';
 import 'package:http/http.dart' as http;
 
 
 class User {
-
+  Passport _passport = Passport();
   Future<User> registration() async {
 
-    User _user = User();
+
 
     final response = await http.post(
       Uri.parse('http://192.168.43.246:5050/client/registration'),
@@ -52,36 +55,40 @@ class User {
 
   static final User _user = User._internal();
   int id=0;
-  List<String> photo_str = [];
-  String first_name='';
-  String last_name='';
-  String phone='';
-  String email='';
-  String dateOfBurn='';
-  String passport='';
-  double rating=0.0;
-  List<dio.File> photo=[];
-  String qr='';
-  String token='';
-  String date_of_registration='';
-  bool is_verified=false;
-  List<int>? imageBytes;
+
+  Field<String> last_name=Field('');
+  Field<String> dads_name=Field('');
+  Field<String> first_name= Field('');
+  Field<String> phone=Field('');
+  Field<String> email=Field('');
+  Field<String> dateOfBurn=Field('');
+  Field<double> rating=Field(0.0);
+  Field<MyImage> photo = Field(MyImage(''));
+  Field<String> qr=Field('');
+  Field<String> token=Field('');
+  Field<String> date_of_registration=Field('');
+  Field<bool> is_verified=Field(false);
+
 
   User.fromJson(Map<String, dynamic> json)
-      : first_name = json['first_name'], last_name = json['last_name'], phone=json['phone'],
-        email = json['email'], dateOfBurn=json['dateOfBurn'], passport=json['passport'],
-        rating=json['rating'], photo=json['photo'], qr=json['qr'], token=json['token'],
-        date_of_registration=json['date_of_registration'], is_verified=json['is_verified'];
+  { first_name.value = json['first_name']; last_name.value = json['last_name']; dads_name.value=json['dads_name']; phone.value=json['phone'];
+        email.value = json['email']; dateOfBurn.value=json['dateOfBurn']; _passport=json['passport'];
+        rating=json['rating']; photo.value=json['photo']; qr.value=json['qr']; token.value=json['token'];
+        date_of_registration.value=json['date_of_registration']; is_verified.value=json['is_verified'];}
 
   Map<String, dynamic> toJson() {
-    photo_str = [];
-    for (var el in photo){
-      photo_str.add(base64Encode(el.readAsBytesSync()));
+    String base_64_photo = '';
+    try {
+      base_64_photo = base64Encode(photo.photo.readAsBytesSync());
     }
-    return {
-    'first_name': first_name, 'last_name':last_name, 'phone':phone, 'email':email,
-    'dateOfBurn':dateOfBurn, 'passport':passport, 'rating':rating, 'photo':photo_str,
-    'qr':qr, 'token':token, 'date_of_registration':date_of_registration, 'is_verified':is_verified
+    catch(e){
+      base_64_photo ='';
+    }
+
+     return {
+    'first_name': first_name.value, 'last_name':last_name.value, 'dads_name':dads_name.value, 'phone':phone.value, 'email':email.value,
+    'dateOfBurn':dateOfBurn.value, 'rating':rating, 'photo':base_64_photo,
+    'qr':qr.value, 'token':token.value, 'date_of_registration':date_of_registration.value, 'is_verified':is_verified, 'passport':_passport
   };}
 
   factory User() {

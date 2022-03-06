@@ -1,10 +1,11 @@
+/*
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../users/user_object.dart';
+import '../objects/user_object.dart';
 
 class RegisterScreenAsOwner extends StatefulWidget{
   const RegisterScreenAsOwner({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class MyScreen extends State<RegisterScreenAsOwner>{
                   child: GestureDetector(
                       onTap: ()  async {
                         image = await _picker.pickImage(source: ImageSource.gallery);
-                        _user.imageBytes = File(image!.path).readAsBytesSync();
+                       // _user.imageBytes = File(image!.path).readAsBytesSync();
                         avatar='Аватар';
 
                         setState(() {
@@ -116,8 +117,8 @@ class MyScreen extends State<RegisterScreenAsOwner>{
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                   child: TextFormField(
-                    controller: TextEditingController()..text = _user.passport,
-                    onChanged:(String value)=> _user.passport=value,
+                    //controller: TextEditingController()..text = _user.passport,
+                    //onChanged:(String value)=> _user.passport=value,
                     decoration: InputDecoration(
                       labelText:'Введите серию паспорта',
                     ),
@@ -138,3 +139,4 @@ class MyScreen extends State<RegisterScreenAsOwner>{
   }
 
 }
+*/
