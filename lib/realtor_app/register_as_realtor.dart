@@ -1,10 +1,11 @@
+/*
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../users/user_object.dart';
+import '../objects/user_object.dart';
 
 class RegisterScreenAsRealtor extends StatefulWidget{
   const RegisterScreenAsRealtor({Key? key}) : super(key: key);
@@ -73,7 +74,7 @@ class MyScreen extends State<RegisterScreenAsRealtor>{
                         avatar='Аватар';
 
                         setState(() {
-                          _user.photo.add(File(image!.path));
+                          //_user.photo.add(File(image!.path));
                         });
                       },
                       child: Column(
@@ -118,8 +119,8 @@ class MyScreen extends State<RegisterScreenAsRealtor>{
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                   child: TextFormField(
-                    controller: TextEditingController()..text = _user.passport,
-                    onChanged:(String value)=> _user.passport=value,
+                    //controller: TextEditingController()..text = _user.passport,
+                    //onChanged:(String value)=> _user.passport=value,
                     decoration: InputDecoration(
                       labelText:'Введите серию паспорта',
                     ),
@@ -140,3 +141,4 @@ class MyScreen extends State<RegisterScreenAsRealtor>{
   }
 
 }
+*/
