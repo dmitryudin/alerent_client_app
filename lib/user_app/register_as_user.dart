@@ -5,7 +5,8 @@ import 'package:client/utils/DatePicker.dart';
 import 'package:client/utils/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../objects/user_object.dart';
+import 'package:provider/provider.dart';
+import 'user_object.dart';
 
 class RegisterScreenAsUser extends StatefulWidget {
   const RegisterScreenAsUser({Key? key}) : super(key: key);
@@ -18,21 +19,23 @@ class RegisterScreenAsUser extends StatefulWidget {
 
 class MyScreen extends State<RegisterScreenAsUser> {
   final _formKey = GlobalKey<FormState>();
-  User _user = User();
-  Passport _passport = Passport();
+
+
 
 
   @override
   void initState() {
     super.initState();
 
+
   }
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    var _user=Provider.of<User>(context, listen: false);
+
     return (Scaffold(
         appBar: AppBar(
           title: const Text('Регистрация Нанимателя'),
@@ -100,7 +103,7 @@ class MyScreen extends State<RegisterScreenAsUser> {
                                   labelText: 'Отчество',
                                 ),
                               )),
-                          PictureWidget(_user.photo, 'загрузить аватарку'),
+                          PictureWidget(fieldPhoto: _user.photo, title: 'загрузить аватарку', isActive: true,),
                           Container(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
@@ -155,8 +158,8 @@ class MyScreen extends State<RegisterScreenAsUser> {
                                   vertical: 10, horizontal: 10),
                               child: TextFormField(
                                   onChanged: (String value) {
-                                    _passport.series.entity = value;
-                                    _passport.series.isModified = true;
+                                    _user.passportObject.series.entity = value;
+                                    _user.passportObject.series.isModified = true;
                                   },
                                 decoration: InputDecoration(
                                   labelText: 'Серия паспорта',
@@ -167,8 +170,8 @@ class MyScreen extends State<RegisterScreenAsUser> {
                                   vertical: 10, horizontal: 10),
                               child: TextFormField(
                                    onChanged: (String value)  {
-                                   _passport.number.entity = value;
-                                   _passport.number.isModified = true;
+                                     _user.passportObject.number.entity = value;
+                                     _user.passportObject.number.isModified = true;
                               },
                                 decoration: InputDecoration(
                                   labelText: 'Номер паспорта',
@@ -178,19 +181,23 @@ class MyScreen extends State<RegisterScreenAsUser> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
                               child: TextFormField(
-                                controller: TextEditingController()..text = _user.passport.entity.dateOfIssue.entity,
+                                controller: TextEditingController()..text = _user.passportObject.dateOfIssue.entity,
                                 onChanged: (String value) async{
-                                  _user.passport.entity.dateOfIssue.entity = await DatePicker.selectDate(context);
-                                  _user.passport.entity.dateOfIssue.isModified =true;
+                                  _user.passportObject.dateOfIssue.entity = await DatePicker.selectDate(context);
+                                  _user.passportObject.dateOfIssue.isModified =true;
 
                                 },
                                 decoration: InputDecoration(
                                   labelText: 'Дата выдачи',
                                 ),
                               )),
-                          PictureWidget(_user.passport.entity.photo_of_main_page,'загрузить основную страницу паспорта'),
+                          PictureWidget(fieldPhoto: _user.passportObject.photoOfMainPage,
+                              title:'загрузить основную страницу паспорта',
+
+                          ),
                           SizedBox(height: height * 0.01),
-                          PictureWidget(_user.passport.entity.photo_of_registeration, 'загрузить страницу паспорта с пропиской'),
+                          PictureWidget(fieldPhoto: _user.passportObject.photoOfRegisteration,
+                              title: 'загрузить страницу паспорта с пропиской'),
                           Container(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),

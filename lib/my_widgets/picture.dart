@@ -1,57 +1,62 @@
-import 'package:client/users/user_object.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:client/user_app/user_object.dart';
+import 'package:client/utils/Fields.dart';
+import 'package:client/utils/photo_class.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class PictureWidget extends StatefulWidget {
-  var user;
+  Field<MyImage> fieldPhoto;
+  String title=''; bool isActive = true;
 
-  PictureWidget(this.user, {Key? key}) : super(key: key);
-
+  PictureWidget({required this.fieldPhoto, this.title='', this.isActive=true, Key? key}) : super(key: key);
   @override
   MyGallery createState() {
-    return MyGallery(user);
+    return MyGallery(fieldPhoto, title, isActive);
   }
 }
 
 class MyGallery extends State<PictureWidget> {
-  var user_class;
-  double r = 0.5;
+  Field<MyImage> fieldPhoto;
+  String title;
 
-  MyGallery(this.user_class);
+  bool isActive = true;
+  MyGallery(this.fieldPhoto, this.title, this.isActive);
 
   final ImagePicker _picker = ImagePicker();
   XFile? image;
-  static String avatar = 'Загрузите аватарку';
+  var myImg;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 2,
-        width: 2,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 20,
-          ),
-        ),
-        child: GestureDetector(
-            onTap: () async {
-              image = await _picker.pickImage(source: ImageSource.gallery);
+    var screenSize = MediaQuery.of(context).size;
+    if (fieldPhoto.entity.uri.contains('http') || !isActive) myImg = CachedNetworkImage(
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      imageUrl: fieldPhoto.entity.uri,
 
-              avatar = 'Аватар';
-              user_class.photo.add(File(image!.path));
+    );
+    else if (image==null) myImg = Column(children: [
+        Text('Нажмите'),
+    Icon(Icons.add_a_photo, color: Colors.orange, size: screenSize.width/3),
+    Text('чтобы '+title, textAlign: TextAlign.center),
+    ],
+    );
+    else myImg=Image.file(File(image!.path));
+    return GestureDetector(
+            onTap: () async {
+              image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50,);
+
               setState(() {
+                fieldPhoto.entity.uri = image!.path;
+                fieldPhoto.isModified = true;
                 // setImage();
               });
             },
             child: Column(
               children: <Widget>[
-                Text(avatar),
-                image == null
-                    ? Image.asset('assets/images/photo.png', width: 320, height: 240)
-                    : Image.file(File(image!.path)),
+               myImg
               ],
-            )));
+            ));
   }
 }

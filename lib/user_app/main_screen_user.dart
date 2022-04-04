@@ -1,7 +1,8 @@
 
 
 import 'package:client/loginscreen/login_screen.dart';
-import 'package:client/objects/user_object.dart';
+import 'package:client/user_app/user_object.dart';
+import 'package:client/user_app/HomePageUser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +19,13 @@ class MainUserScreen extends StatefulWidget{
   User _user = User();
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    Text('Домашняя страница'),
+    HomePageUser(),
     Text('История сделок')
   ];
 
   void _onItemTapped(int index){
     setState(() {
-      _user.getProfile();
+
       _selectedIndex = index;
     });
   }
@@ -32,7 +33,7 @@ class MainUserScreen extends StatefulWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: Text('Наниматель')),
+      //appBar: AppBar(title: Text('Наниматель')),
       body: Center(child: _widgetOptions[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Icon(Icons.home),

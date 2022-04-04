@@ -1,10 +1,12 @@
-import 'package:client/mainscreen/main_screen_owner.dart';
-import 'package:client/register_screen/register_as_realtor.dart';
-import 'package:client/register_screen/register_as_user.dart';
+import 'package:client/owner_app/main_screen_owner.dart';
+import 'package:client/objects/passport_object.dart';
+import 'package:client/realtor_app/register_as_realtor.dart';
+import 'package:client/user_app/register_as_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../users/user_object.dart';
+import '../user_app/user_object.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -21,9 +23,19 @@ class MyScreen extends State<RegisterScreen> {
     super.initState();
   }
 
+
+  void new_screen(var screen){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => screen));
+  }
+
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    User _user = Provider.of<User>(context, listen: true);
+    Passport _passport = Provider.of<Passport>(context, listen: true);
+        double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return (Scaffold(
@@ -31,104 +43,42 @@ class MyScreen extends State<RegisterScreen> {
           title: const Text('Зарегестрироватья как...'),
         ),
         body: ListView(
-            padding: EdgeInsets.symmetric(
-                vertical: height * 0.1, horizontal: width * 0.07),
             children: <Widget>[
-              Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(
-                            Size(height * 0.5, height * 0.1)),
-                        elevation: MaterialStateProperty.all(15),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.pink),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(color: Colors.black),
-                          ),
-                        )),
-                    child: const Text("Наниматель",
-                        style: TextStyle(
-                          color: Colors.black, // зеленый цвет текста
-                          fontSize: 26, // высота шрифта 26
-                          // черный цвет фона текста
-                        )),
+              SizedBox(height: height*0.1),
+              Row(
+        mainAxisAlignment: MainAxisAlignment.center,//Прочитал на форуме, что возможно стоит оборачивать в Row элементы чтобы управлять из размерами в ListView
+                   children: [ElevatedButton(
+                     child: const Text("Наниматель"),
+                     onPressed: () {
+                       setState(() {});
+                       _user.clearData();
+                       new_screen(RegisterScreenAsUser());
+
+                     },
+                   ),]),
+              SizedBox(height: height*0.05),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,//Прочитал на форуме, что возможно стоит оборачивать в Row элементы чтобы управлять из размерами в ListView
+                  children: [ElevatedButton(
+                    child: const Text("Собственник"),
                     onPressed: () {
                       setState(() {});
+                      new_screen(RegisterScreenAsUser());
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterScreenAsUser()));
                     },
-                  )),
-              Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 0),
-                  decoration: BoxDecoration(),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(
-                            Size(height * 0.5, height * 0.1)),
-                        elevation: MaterialStateProperty.all(15),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(color: Colors.black),
-                          ),
-                        )),
-                    child: const Text("Собственник",
-                        style: TextStyle(
-                          color: Colors.black, // зеленый цвет текста
-                          fontSize: 26, // высота шрифта 26
-                          // черный цвет фона текста
-                        )),
+                  ),]),
+              SizedBox(height: height*0.05),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,//Прочитал на форуме, что возможно стоит оборачивать в Row элементы чтобы управлять из размерами в ListView
+                  children: [ElevatedButton(
+                    child: const Text("Риелтор"),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterScreenAsOwner()));
+                      setState(() {});
+                      new_screen(RegisterScreenAsUser());
+
                     },
-                  )),
-              Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(
-                            Size(height * 0.5, height * 0.1)),
-                        elevation: MaterialStateProperty.all(15),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.yellow),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(color: Colors.black),
-                          ),
-                        )),
-                    child: const Text("Риелтор",
-                        style: TextStyle(
-                          color: Colors.black, // зеленый цвет текста
-                          fontSize: 26, // высота шрифта 26
-                          // черный цвет фона текста
-                        )),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterScreenAsRealtor()));
-                    },
-                  )),
+                  ),]),
+
             ])));
   }
 }
