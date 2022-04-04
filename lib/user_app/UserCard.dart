@@ -29,85 +29,28 @@ class MyWidget extends State<UserCard>{
         .of(context)
         .size
         .height;
-    return Card(
-        shadowColor: Colors.grey,
-        elevation: 15,
-        child: Column(children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.people, color: Colors.cyan, size: 45),
-            tileColor: Colors.teal,
-            title: Text(
-              "Личные данные",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: width / 3,
+    return Container(
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
 
-                padding: const EdgeInsets.symmetric(
-                    vertical: 1, horizontal: 1),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.red,
-                  ),
-                ),
-                child:
-                 PictureWidget(fieldPhoto: _user.photo, title: 'загрузить аватарку', isActive: false,)),
-              Flexible
-                (child:Table(
-                border: TableBorder(///horizontalInside: BorderSide(width: 1, color: Colors.blue, style: BorderStyle.solid),
-                    verticalInside: BorderSide(width: 1, color: Colors.blue, style: BorderStyle.solid)),
-                children: [
-                  TableRow(children: [
-                    Text('Фамилия', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(_user.firstName.entity, textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Имя', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(_user.lastName.entity, textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Отчество', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(_user.dadsName.entity, textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Дата рождения', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(_user.dateOfBurn.entity, textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Телефон', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(_user.phone.entity, textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Email', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(_user.email.entity, textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Семейное положение', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('в браке', textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Дети', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('1', textAlign: TextAlign.start, ),
-                  ]),
-                  TableRow(children: [
-                    Text('Верификация профиля', textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('В процессе', textAlign: TextAlign.start, ),
-                  ]),
-                ],
-              ))
-            ],
-          ),
-          TextButton(
-              child: const Text("Изменить"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditUserPage()));
-                //_formKey.currentState!.validate();
+        colors: [
+        const Color(0xFF3366FF),
+    const Color(0xFF00CCFF),
+        ],
+    )),
+        width: width-50,
 
-              })
-        ]));
+        child: CircleAvatar(
+      child: ClipOval(
+
+        child: CachedNetworkImage(imageUrl: _user.photo.entity.uri,
+            width: width/3.8,
+      fit: BoxFit.fill
+      )),
+        backgroundColor: Colors.transparent,
+        radius: 55,
+    ));
   }
 }
