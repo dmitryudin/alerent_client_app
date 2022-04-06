@@ -5,6 +5,7 @@ import 'package:client/user_app/PassportCard.dart';
 import 'package:client/user_app/user_object.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/src/provider.dart';
 
@@ -18,21 +19,15 @@ class HomePageUser extends StatefulWidget {
 }
 
 class MyScreen extends State<HomePageUser> {
-
-
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Color.fromARGB(255, 0, 40, 160)));
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     // TODO: implement build
     return (Scaffold(
-        appBar: AppBar(
+        /* appBar: AppBar(
           title: const Text('Домашняя страница'),
             actions: <Widget>[
         IconButton(
@@ -54,15 +49,10 @@ class MyScreen extends State<HomePageUser> {
           Provider.of<User>(context, listen: false).getProfile();
     }),
             ]
-        ),
+        ),*/
         body: ListView(children: <Widget>[
-          UserCard(),
-          PassportCard()
-
-        ])));
+      UserCard(),
+      //PassportCard()
+    ])));
   }
 }
-
-
-
-
