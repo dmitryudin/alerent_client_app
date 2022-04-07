@@ -12,7 +12,9 @@ ThemeData basicTheme() => ThemeData(
           onSurface: Colors.blue,
           onBackground: Colors.teal,
           onError: Colors.blue,
-          brightness: Brightness.light),
+          brightness: Brightness.light,
+          primaryVariant: Colors.blue,
+          secondaryVariant: Colors.blue),
       scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
       backgroundColor: Colors.white,
       appBarTheme: AppBarTheme(

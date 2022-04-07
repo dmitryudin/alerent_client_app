@@ -57,7 +57,7 @@ class ChooseScreen extends State<Choose> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Color.fromARGB(255, 0, 40, 160)));
     // TODO: implement build
-    if (LoginController().isAuthFlag) {
+    if (!LoginController().isAuthFlag) {
       return MainUserScreen();
     } else {
       return LoginScreen();
